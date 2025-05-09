@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import asyncio
+from dotenv import load_dotenv
 
 app = FastAPI()
 

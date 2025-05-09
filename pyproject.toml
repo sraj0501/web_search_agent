@@ -1,15 +1,17 @@
 [project]
-name = "ice-breaker-clone"
+name = "rag_agent"
 version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
     "black>=25.1.0",
+    "chardet>=5.2.0",
     "fastapi[standard]>=0.115.12",
     "isort>=6.0.1",
     "langchain>=0.3.25",
     "langchain-community>=0.3.23",
     "langchain-ollama>=0.3.2",
+    "ollama>=0.4.8",
     "python-dotenv>=1.1.0",
     "tweepy>=4.15.0",
 ]
