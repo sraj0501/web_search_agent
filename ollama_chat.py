@@ -6,16 +6,18 @@ from langchain_core.prompts import PromptTemplate
 from utils import encode_decode as ed
 
 os.environ["LANGCHAIN_TRACING_V2"] = "false"
+input_file = "natwest.txt"
+model_name = "gemma3:27b" , "llama3"
 
 llm = ChatOllama(
-    model = "llama3",
+    model = model_name[1],
     temperature= 0
 )
 
-enc = ed.detect_file_encoding("natwest.txt")
+enc = ed.detect_file_encoding(input_file)
 print(f"Detected encoding {enc[0]} with {enc[1]*100}% accuracy.")
 
-with open("natwest.txt", "r", encoding=enc[0]) as f:
+with open(input_file, "r", encoding=enc[0]) as f:
     information = f.read()
 
 # print(information[20])
@@ -45,3 +47,6 @@ chain = summary_prompt_template | llm | StrOutputParser()
 res = chain.invoke(input={"information": information})
 
 print(res)
+
+with open(f"output/{model_name[1]}_{input_file}", "w", encoding=enc[0]) as f:
+    f.write(res)
