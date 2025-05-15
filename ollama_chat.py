@@ -1,5 +1,4 @@
 import os
-
 from langchain_core.output_parsers import StrOutputParser
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
@@ -10,7 +9,7 @@ input_file = "natwest.txt"
 model_name = "gemma3:27b" , "llama3"
 
 llm = ChatOllama(
-    model = model_name[1],
+    model = model_name[0],
     temperature= 0
 )
 
@@ -48,5 +47,5 @@ res = chain.invoke(input={"information": information})
 
 print(res)
 
-with open(f"output/{model_name[1]}_{input_file}", "w", encoding=enc[0]) as f:
+with open(f"output/{model_name[0]}_{input_file}", "w", encoding=enc[0]) as f:
     f.write(res)
