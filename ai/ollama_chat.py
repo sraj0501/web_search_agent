@@ -5,8 +5,8 @@ from langchain_core.prompts import PromptTemplate
 from utils import encode_decode as ed
 
 os.environ["LANGCHAIN_TRACING_V2"] = "false"
-input_file = "natwest.txt"
-model_name = "gemma3:27b" , "llama3"
+input_file = "../data/natwest.txt"
+model_name = ("llama3", "gemma3:27b")
 
 llm = ChatOllama(
     model = model_name[0],
@@ -47,5 +47,5 @@ res = chain.invoke(input={"information": information})
 
 print(res)
 
-with open(f"output/{model_name[0]}_{input_file}", "w", encoding=enc[0]) as f:
+with open(f"output/{model_name[0]}_natwest_output.txt", "w", encoding=enc[0]) as f:
     f.write(res)
