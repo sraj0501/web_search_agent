@@ -446,17 +446,15 @@ def main():
 	parser = argparse.ArgumentParser(
 		description="Business Intelligence AI Agent with Comprehensive Logging",
 		epilog="""
-Examples:
-  %(prog)s                                    # Interactive mode
-  %(prog)s --company Apple --location USA     # Single company research
-  %(prog)s --batch companies.txt              # Batch processing
-  %(prog)s --logs                            # View all execution logs
-  %(prog)s --view-log 20250603_145230_apple  # View specific log
-  %(prog)s --cache                           # View cached companies
-  %(prog)s --export-logs                     # Export logs summary
-        """,
-		formatter_class=argparse.RawDescriptionHelpFormatter
-	)
+				Examples:
+				  %(prog)s                                    # Interactive mode
+				  %(prog)s --company Apple --location USA     # Single company research
+				  %(prog)s --batch companies.txt              # Batch processing
+				  %(prog)s --logs                            # View all execution logs
+				  %(prog)s --view-log 20250603_145230_apple  # View specific log
+				  %(prog)s --cache                           # View cached companies
+				  %(prog)s --export-logs                     # Export logs summary
+						""", formatter_class=argparse.RawDescriptionHelpFormatter)
 
 	parser.add_argument("--create-config", action="store_true",
 						help="Create a sample configuration file")
