@@ -126,7 +126,14 @@ def scrape_wikipedia(query: str) -> dict:
         # Get the first result title
         page_title = search_data[1][0]
         page_url = search_data[3][0] if search_data[3] else ""
-        
+
+        for i, title in enumerate(search_data[1][:3]):  # Check first 3 results
+            title_lower = title.lower()
+            if any(term in title_lower for term in
+                   ['inc', 'corp', 'company', 'limited', 'ltd', 'technologies', 'systems']):
+                page_title = title
+                break
+
         # Get page summary using REST API (for thumbnail and basic info)
         summary_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{page_title.replace(' ', '_')}"
         try:
