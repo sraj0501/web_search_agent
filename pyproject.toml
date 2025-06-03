@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
+    "beautifulsoup4>=4.13.4",
     "black>=25.1.0",
     "bs4>=0.0.2",
     "chardet>=5.2.0",
@@ -14,6 +15,9 @@ dependencies = [
     "langchain-ollama>=0.3.2",
     "ollama>=0.4.8",
     "python-dotenv>=1.1.0",
+    "requests>=2.32.3",
     "streamlit>=1.45.1",
     "tweepy>=4.15.0",
+    "wikipedia>=1.4.0",
+    "wikipedia-api>=0.8.1",
 ]

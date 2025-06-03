@@ -3,11 +3,19 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
-from utils import ch_urls
 from typing import Any
 import pandas as pd
+import sys
 
-env_file = os.path.join(Path(__file__).parent.parent.absolute(), ".env")
+curr_path = Path(__file__).absolute()
+parent_path = curr_path.parent.parent.absolute()
+sys.path.append(str(parent_path))
+print(curr_path)
+print(parent_path)
+
+from utils import ch_urls
+
+env_file = os.path.join(str(parent_path), ".env")
 if os.path.exists(env_file):
 	try:
 		load_dotenv(env_file)
@@ -15,7 +23,8 @@ if os.path.exists(env_file):
 		raise e
 	else:
 		print("Loaded Environment Variables.")
-		api_key = os.getenv('CH_API_KEY').strip()
+		api_key = os.getenv('CH_API_KEY')
+
 
 def call_api(url:str, user_name:str, passwd:str='') -> Any:
 	try:
@@ -28,28 +37,28 @@ def call_api(url:str, user_name:str, passwd:str='') -> Any:
 	return response.json()
 
 
-def search_all(company_name:str) -> str:
+def search_all(company_name:str) -> pd.DataFrame:
 	final_url = ch_urls.SEARCH_ALL+company_name
+	print(final_url)
 	company_list = call_api(final_url, api_key)
 	company_df = pd.json_normalize(company_list["items"])
-	f_name = f"../output/ch_{company_name.lower()}_{datetime.now().date()}.csv"
-	company_df.to_csv(f_name, index=False)
-	return f_name
+	# f_name = os.path.join(output_loc, f"ch_{company_name.lower()}_{datetime.now().date()}.csv")
+	# company_df.to_csv(f_name, index=False)
+	return company_df
 
 
-def filter_company(df_name: str, c_name: str, c_loc: str=None):
-	try:
-		print(df_name)
-		df = pd.read_csv(df_name)
-	except Exception as e:
-		raise e
+def filter_company(df: pd.DataFrame,comp_num: str):
+	req_cols = ["title","company_number","company_status","address.country"]
+	filtered_df = df[req_cols][df["company_number"].str.strip().str.lower() == comp_num.strip().lower()]
 
-	filtered_df = df[["title","company_number","company_status","address.country"]]
-	return filtered_df
+	return filtered_df, df[req_cols]
+
 
 if __name__ == "__main__":
 	print("\n")
 	comp_name = input("Enter the name of company to search : ")
 	comp_loc = input("Enter the location of the company: ")
-	search_df = search_all(comp_name)
-	print(filter_company(search_df,comp_name ))
+	output_dir = os.getenv("OUTPUT_DIR")
+	kw, *args = comp_name.strip().lower().split()
+	search_df = search_all(kw)
+	fil_df, all_df = filter_company(search_df, comp_loc, *args)
