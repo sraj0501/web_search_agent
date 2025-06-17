@@ -62,7 +62,7 @@ def setup_agent():
 def get_user_input():
 	"""Get company name and location from user"""
 	print("\n" + "=" * 60)
-	print("🔍 BUSINESS INTELLIGENCE RESEARCH")
+	print("🔍 KYC Agentic RESEARCH")
 	print("=" * 60)
 
 	# Get company name
@@ -258,7 +258,7 @@ def view_specific_log(agent: BusinessIntelligenceAgent, session_id: str):
 
 def interactive_mode(agent: BusinessIntelligenceAgent):
 	"""Run the agent in interactive mode"""
-	print("🚀 Starting Interactive Business Intelligence Research")
+	print("🚀 Starting Interactive Research")
 	print("💡 Commands: 'quit', 'exit', 'q' to stop")
 	print("💡 Special commands: 'cache', 'logs', 'clear'")
 

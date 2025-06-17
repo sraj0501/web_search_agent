@@ -319,7 +319,7 @@ def main():
 	# Header
 	st.markdown("""
     <div class="main-header">
-        <h1>Agentic KYC Application</h1>
+        <h1>🏢 Agentic KYC Application</h1>
         <p>Advanced Business Research & Analysis Platform</p>
     </div>
     """, unsafe_allow_html=True)
@@ -380,7 +380,7 @@ def main():
 	tab1, tab2, tab3 = st.tabs(["🔍 Research", "💾 Cache", "📋 Logs"])
 
 	with tab1:
-		st.header("🔍 Business Intelligence Research")
+		st.header("Company Research")
 
 		col1, col2 = st.columns([2, 1])
 
