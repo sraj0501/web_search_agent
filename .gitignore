@@ -3,3 +3,4 @@
 *.idea*
 *__pycache__*
 *output*
+*azure_config.json*

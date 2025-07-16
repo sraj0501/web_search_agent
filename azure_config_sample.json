@@ -1,0 +1,7 @@
+{
+  "azure_openai_api_key": "your-azure-openai-api-key",
+  "azure_openai_endpoint": "https://your-resource-name.openai.azure.com/",
+  "azure_openai_api_version": "2023-09-01-preview",
+  "azure_deployment_name": "gpt-4",
+  "serper_api_key": "your-serper-api-key"
+}

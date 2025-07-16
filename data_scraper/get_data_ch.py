@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from datetime import datetime
+import json
 from typing import Any
 import pandas as pd
 import sys
@@ -37,14 +37,19 @@ def call_api(url:str, user_name:str, passwd:str='') -> Any:
 	return response.json()
 
 
-def search_all(company_name:str) -> pd.DataFrame:
+def search_all(company_name:str, output_format:str = "dataframe") -> pd.DataFrame | str|  None:
+	"""output format = dataframe / json"""
 	final_url = ch_urls.SEARCH_ALL+company_name
 	print(final_url)
 	company_list = call_api(final_url, api_key)
 	company_df = pd.json_normalize(company_list["items"])
 	# f_name = os.path.join(output_loc, f"ch_{company_name.lower()}_{datetime.now().date()}.csv")
 	# company_df.to_csv(f_name, index=False)
-	return company_df
+	if output_format == "dataframe":
+		return company_df
+	elif output_format == "json":
+		return company_list
+	return None
 
 
 def filter_company(df: pd.DataFrame,comp_num: str):
