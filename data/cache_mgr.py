@@ -1,4 +1,4 @@
-from utils.common_config import BusinessIntelligenceConfig
+from utils.common_config import EnhancedBusinessIntelligenceConfig 
 from typing import Dict, List, Any, Optional
 import json
 from datetime import timedelta, datetime
@@ -9,7 +9,7 @@ import re
 class CacheManager:
 	"""Tool for managing research cache"""
 
-	def __init__(self, config: BusinessIntelligenceConfig):
+	def __init__(self, config: EnhancedBusinessIntelligenceConfig ):
 		self.config = config
 
 	def check_cache(self, company_name: str, location: str = "") -> Optional[Dict[str, Any]]:

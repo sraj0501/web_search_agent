@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from data_scraper import get_data_ch as gdc
-from utils.common_config import BusinessIntelligenceConfig
+from utils.common_config import EnhancedBusinessIntelligenceConfig 
 
 
 # =================================================================
@@ -18,7 +18,7 @@ from utils.common_config import BusinessIntelligenceConfig
 class CompanySearchTool:
 	"""Tool for searching company databases and official sources"""
 
-	def __init__(self, config: BusinessIntelligenceConfig):
+	def __init__(self, config: EnhancedBusinessIntelligenceConfig ):
 		self.config = config
 
 	def search_company_house(self, company_name: str, location: str = "") -> Dict[str, Any]:
@@ -63,7 +63,7 @@ class CompanySearchTool:
 class WikipediaResearchTool:
 	"""Tool for comprehensive Wikipedia research"""
 
-	def __init__(self, config: BusinessIntelligenceConfig):
+	def __init__(self, config: EnhancedBusinessIntelligenceConfig ):
 		self.config = config
 
 	def research_company(self, company_name: str, location: str = "") -> Dict[str, Any]:
@@ -148,7 +148,7 @@ class WikipediaResearchTool:
 class WebResearchTool:
 	"""Tool for comprehensive web research focused on business intelligence"""
 
-	def __init__(self, config: BusinessIntelligenceConfig):
+	def __init__(self, config: EnhancedBusinessIntelligenceConfig ):
 		self.config = config
 
 	def research_business_intelligence(self, company_name: str, location: str = "") -> Dict[str, Any]:

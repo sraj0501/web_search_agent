@@ -1,18 +1,18 @@
 # KYC Agent with Modern Material Design
 # =================================================================
 
-import sys
+import json
 import os
-import streamlit as st
-from pathlib import Path
-import pandas as pd
-import requests
 import re
-from urllib.parse import urlparse
-from bs4 import BeautifulSoup
+import sys
 import time
 from datetime import datetime, timedelta
-import json
+from pathlib import Path
+
+import requests
+import streamlit as st
+from bs4 import BeautifulSoup
+
 # import wikipedia  # Removed to avoid dependency issues
 
 curr_path = Path(__file__).absolute()
@@ -48,8 +48,8 @@ if "res" not in st.session_state:
 REQ_COLS = ["title", "company_number", "company_status", "address.country"]
 
 # Configuration
-SERPER_API_KEY = os.getenv("SERPER_API_KEY")  # Set your Serper API key in environment variables
-OUTPUT_DIR = os.getenv("OUTPUT_DIR", "./output")  # Default output directory
+SERPER_API_KEY = os.getenv("SERPER_API_KEY")
+OUTPUT_DIR = os.getenv("OUTPUT_DIR", "./output")
 CACHE_EXPIRY_HOURS = 24  # Cache expires after 24 hours
 
 # Utility Functions

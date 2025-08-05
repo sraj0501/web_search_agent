@@ -1,3 +1,4 @@
+import asyncio
 import json
 from datetime import datetime
 from typing import Dict, List, Any, Optional
@@ -14,7 +15,7 @@ from langchain_openai import AzureChatOpenAI
 from data.cache_mgr import CacheManager
 from data_scraper.search_tools import CompanySearchTool, WikipediaResearchTool, WebResearchTool
 from utils.agent_logger import AgentExecutorLogger
-
+from ai.adverse_media.AdverseMediaTool import AdverseMediaTool
 
 # =================================================================
 # AI AGENT IMPLEMENTATION
@@ -88,6 +89,9 @@ class BusinessIntelligenceAgent:
 
 	def __init__(self, config):
 		self.config = config
+
+		# Adding the Adverse media search tool.
+		self.adverse_media_tool = AdverseMediaTool(config)
 
 		# Initialize logger
 		self.logger = AgentExecutorLogger(config)
@@ -169,6 +173,11 @@ class BusinessIntelligenceAgent:
 				name="save_research",
 				description="Save completed research to cache. Input: 'company_name|location|research_data_json'",
 				func=self._save_research_wrapper
+			),
+			Tool(
+				name="adverse_media_search",
+				description="Check negative news / sanctions about a company. Input: 'company_name|location'",
+				func=self._adverse_media_wrapper
 			)
 		]
 
@@ -291,7 +300,17 @@ class BusinessIntelligenceAgent:
 		except Exception as e:
 			return f"Error saving research: {str(e)}"
 
-	def research_business(self, company_name: str, location: str = "") -> Dict[str, Any]:
+	def _adverse_media_wrapper(self, input_data: str) -> str:  # NEW
+		company, *rest = input_data.split("|")
+		location = rest[0] if rest else ""
+		# run synchronously inside agent via asyncio.run
+		result = asyncio.run(self.adverse_media_tool.search(company.strip(), location.strip()))
+		# shorten long lists for prompt
+		if len(result["adverse_findings"]) > 15:
+			result["adverse_findings"] = result["adverse_findings"][:15] + [{"note": "...truncated"}]
+		return json.dumps(result, indent=2)
+
+	def research_business(self, company_name: str, location: str = "", include_adverse_media: bool = False) -> Dict[str, Any]:
 		"""Main method to research a business with comprehensive logging"""
 		try:
 			# Start logging session
@@ -340,6 +359,12 @@ class BusinessIntelligenceAgent:
 					"chat_history": chat_history
 				})
 
+				if include_adverse_media:
+					adverse_result = asyncio.run(
+						self.adverse_media_tool.search(company_name, location)
+					)
+					self.logger.log_adverse_media(adverse_result)
+
 			finally:
 				# Restore stdout/stderr
 				sys.stdout = old_stdout
@@ -369,7 +394,8 @@ class BusinessIntelligenceAgent:
 				"success": True,
 				"company_name": company_name,
 				"location": location,
-				"response": result["output"],
+				"response": agent_result["output"],
+				"adverse_media": adverse_result,
 				"research_steps": self.callbacks.research_steps,
 				"timestamp": datetime.now().isoformat(),
 				"session_id": self.logger.current_session["session_id"]

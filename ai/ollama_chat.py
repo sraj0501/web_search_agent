@@ -38,7 +38,7 @@ def summarize_data():
     If Not, provide the heading and leave data as NA
     
     The output should be in the form of a Python Dictionary provided below. 
-    The information should be precise and concise. 
+    The information should be precise. 
     
     {{products:[list of products],
     services:[list of services],

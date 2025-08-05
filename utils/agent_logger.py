@@ -264,3 +264,10 @@ class AgentExecutorLogger:
 				continue
 
 		return sorted(log_files, key=lambda x: x["modified"], reverse=True)
+
+	def log_adverse_media(self, adverse_result: Dict[str, Any]):
+		self.current_session.setdefault("adverse_media", adverse_result)
+		self.log_console_output(
+			f"🚨 Adverse media: {len(adverse_result['adverse_findings'])} findings, "
+			f"risk_score={adverse_result['risk_score']}"
+		)

@@ -15,7 +15,7 @@ curr_path = Path(__file__).absolute()
 parent_path = curr_path.parent.parent.parent.absolute()
 sys.path.append(str(parent_path))
 
-from utils.common_config import AzureOpenAIHelper, BusinessIntelligenceConfig
+from utils.common_config import AzureOpenAIHelper, EnhancedBusinessIntelligenceConfig 
 from ai.bi_agent.BIAgent import BusinessIntelligenceAgent
 
 output_loc = os.getenv("OUTPUT_DIR")
@@ -37,7 +37,7 @@ def setup_agent():
 			return None
 
 		print("🔧 Initializing configuration...")
-		config = BusinessIntelligenceConfig()
+		config = EnhancedBusinessIntelligenceConfig ()
 
 		print("🧪 Testing Azure OpenAI connection...")
 		if not AzureOpenAIHelper.test_azure_connection(config):
@@ -470,6 +470,8 @@ def main():
 						help="View specific agent log by session ID")
 	parser.add_argument("--export-logs", type=str, nargs='?', const='auto', metavar="OUTPUT_FILE",
 						help="Export logs summary to JSON file (auto-generated filename if not specified)")
+	parser.add_argument("--adverse", action="store_true",
+						help="Include adverse media screening")
 
 	args = parser.parse_args()
 
@@ -510,7 +512,11 @@ def main():
 		if args.location:
 			print(f"📍 Location: {args.location}")
 
-		result = agent.research_business(args.company, args.location or "")
+		result = agent.research_business(
+			args.company,
+			args.location or "",
+			include_adverse_media=args.adverse
+		)
 		display_results(result)
 		return
 

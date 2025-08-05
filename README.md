@@ -161,7 +161,7 @@ main() → setup_agent() → interactive_mode() / batch_mode() / single_query()
 ### **2. Business Intelligence Agent**
 ```python
 BusinessIntelligenceAgent {
-    - config: BusinessIntelligenceConfig
+    - config: EnhancedBusinessIntelligenceConfig 
     - logger: AgentExecutorLogger  
     - callbacks: BusinessIntelligenceCallbacks
     - tools: [CompanySearchTool, WikipediaResearchTool, WebResearchTool, CacheManager]
@@ -336,3 +336,9 @@ class NewResearchTool:
 - **Storage**: 5GB free space
 - **Network**: High-speed broadband
 - **APIs**: Premium API tiers for higher limits
+
+
+### **ADD Adverse media check** [TODO]
+- Semantic Kernel and AI foundry 
+- [LESG] [https://www.lseg.com/en/risk-intelligence/financial-crime-risk-management/adverse-media-screening]
+- 
