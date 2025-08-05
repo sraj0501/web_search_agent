@@ -106,7 +106,7 @@ class AzureOpenAIHelper:
 # CONFIGURATION
 # =================================================================
 
-class BusinessIntelligenceConfig :
+class EnhancedBusinessIntelligenceConfig :
     """Configuration class for Business Intelligence Agent"""
 
     def __init__(self):
@@ -125,6 +125,17 @@ class BusinessIntelligenceConfig :
         self.max_search_results = 10
         self.max_content_length = 8000
 
+        # --- NEW ---
+        self.news_api_keys = {
+            "newsapi":   os.getenv("NEWSAPI_KEY"),
+            "bing_news": os.getenv("BING_NEWS_KEY"),
+            "serper":    os.getenv("SERPER_API_KEY")
+        }
+
+        self.adverse_media_config = {
+            "search_timeframe_days": int(os.getenv("ADVERSE_TIMEFRAME_DAYS", 365))
+        }
+
         # Create output directory
         Path(self.output_dir).mkdir(exist_ok=True)
 
@@ -141,27 +152,3 @@ class BusinessIntelligenceConfig :
         print(f"✅ Azure OpenAI configured: {self.azure_openai_endpoint}")
         print(f"✅ Deployment: {self.azure_deployment_name}")
         print(f"✅ API Version: {self.azure_openai_api_version}")
-
-class EnhancedBusinessIntelligenceConfig :
-    """
-    Extends the old `EnhancedBusinessIntelligenceConfig ` with extra API keys
-    used by AdverseMediaTool and, later, Semantic-Kernel / AI-Foundry.
-    """
-    def __init__(self):
-        # --- existing keys ---
-        self.azure_openai_api_key   = os.getenv("AZURE_OPENAI_KEY")
-        self.azure_openai_endpoint  = os.getenv("AZURE_OPENAI_ENDPOINT")
-        self.azure_openai_api_version = os.getenv("AZURE_OPENAI_VERSION")
-        self.azure_deployment_name  = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
-        self.output_dir             = os.getenv("OUTPUT_DIR") or "./output"
-        Path(self.output_dir).mkdir(exist_ok=True)
-
-        # --- NEW ---
-        self.news_api_keys = {
-            "newsapi":   os.getenv("NEWSAPI_KEY"),
-            "bing_news": os.getenv("BING_NEWS_KEY"),
-            "serper":    os.getenv("SERPER_API_KEY")
-        }
-        self.adverse_media_config = {
-            "search_timeframe_days": int(os.getenv("ADVERSE_TIMEFRAME_DAYS", 365))
-        }
