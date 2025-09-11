@@ -394,7 +394,7 @@ class BusinessIntelligenceAgent:
 				"success": True,
 				"company_name": company_name,
 				"location": location,
-				"response": agent_result["output"],
+				"response": result["output"],
 				"adverse_media": adverse_result,
 				"research_steps": self.callbacks.research_steps,
 				"timestamp": datetime.now().isoformat(),
